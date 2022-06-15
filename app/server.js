@@ -5,7 +5,7 @@ import path from "path";
 import http from "http";
 import cors from "cors";
 import mongoose from "mongoose";
-// constants
+// functions => public
 import { __dirname } from "./functions/public.js";
 // routes
 import mainRouter from "./routes/routes.js"
