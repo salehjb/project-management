@@ -1,0 +1,12 @@
+const { Schema, model, Types } = require("mongoose");
+
+const TeamSchema = new Schema({
+    name: { type: String, required: true },
+    description: { type: String },
+    users: { type: [Types.ObjectId], default: [] },
+    owner: { type: Types.ObjectId, required: true },
+})
+
+const TeamModel = model("teams", TeamSchema);
+
+module.exports = TeamModel;
