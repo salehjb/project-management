@@ -20,7 +20,35 @@ class UserController {
         }
     }
 
-    createUser(req, res, next) {
+    async updateUser(req, res, next) {
+        try {
+            // get user id
+            const userId = req.user._id;
+
+            const datas = req.body;
+
+            // datas validator
+            Object.entries(datas).forEach(([value, key]) => {
+                if (!["first_name", "last_name", "skills"].includes(key)) throw { status: 401, message: "bad request" };
+                if (["", " ", ".", undefined, null, [], {}].includes(value)) throw { status: 401, message: "bad request" };
+            })
+
+            // update user
+            const updateUser = await UserModel.updateOne({ _id: userId }, { $set: datas });
+            if (updateUser.modifiedCount > 0) {
+                return res.json({
+                    status: 200,
+                    message: "user updated successfully"
+                });
+            } else {
+                throw { status: 500, message: "user updated failed" };
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async removeUserById(req, res, next) {
         try {
 
         } catch (error) {
@@ -28,7 +56,7 @@ class UserController {
         }
     }
 
-    updateUserById(req, res, next) {
+    async acceptInviteInTeam(req, res, next) {
         try {
 
         } catch (error) {
@@ -36,23 +64,7 @@ class UserController {
         }
     }
 
-    removeUserById(req, res, next) {
-        try {
-
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    acceptInviteInTeam(req, res, next) {
-        try {
-
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    rejectInviteInTeam(req, res, next) {
+    async rejectInviteInTeam(req, res, next) {
         try {
 
         } catch (error) {

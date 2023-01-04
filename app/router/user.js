@@ -7,6 +7,9 @@ const userRouter = require('express').Router();
 userRouter.get("/", userController.getAllUsers);
 
 // get user profile
-userRouter.get("/profile", autoLogin, userController.getProfile)
+userRouter.get("/profile", autoLogin, userController.getProfile);
+
+// update user
+userRouter.put("/update", autoLogin, userController.updateUser);
 
 module.exports = userRouter;
