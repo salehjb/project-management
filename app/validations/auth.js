@@ -25,6 +25,14 @@ function registerValidator() {
     ]
 }
 
+function loginValidator() {
+    return [
+        body("username").notEmpty().withMessage("username cannot be empty"),
+        body("password").notEmpty().withMessage("password cannot be empty")
+    ]
+}
+
 module.exports = {
     registerValidator,
+    loginValidator,
 }

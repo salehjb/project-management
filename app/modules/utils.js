@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { EXPIRES_IN } = require('../configs/constants')
 
 function hashString(str) {
     const salt = bcrypt.genSaltSync(10);
@@ -6,6 +8,17 @@ function hashString(str) {
     return hash;
 }
 
+function compareStringWithHash(str, hash) {
+    return bcrypt.compareSync(str, hash);
+}
+
+function tokenGenerator(payload) {
+    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: EXPIRES_IN });
+    return token;
+}
+
 module.exports = {
     hashString,
+    compareStringWithHash,
+    tokenGenerator
 }

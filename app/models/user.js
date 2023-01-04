@@ -10,6 +10,7 @@ const UserSchema = new Schema({
     skills: { type: [String], default: [] },
     teams: { type: [Types.ObjectId], default: [] },
     role: { type: String, default: "USER", required: true },
+    token: { type: String, default: "", required: true },
 }, { timestamps: true });
 
 const UserModel = model("users", UserSchema);

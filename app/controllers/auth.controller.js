@@ -1,6 +1,5 @@
-const { validationResult } = require("express-validator");
 const UserModel = require("../models/user");
-const { hashString } = require("../modules/utils");
+const { hashString, compareStringWithHash, tokenGenerator } = require("../modules/utils");
 
 class AuthController {
     async register(req, res, next) {
@@ -24,7 +23,24 @@ class AuthController {
 
     async login(req, res, next) {
         try {
-            
+            const { username, password } = req.body;
+
+            // find user by username
+            const user = await UserModel.findOne({ username });
+            if (!user) throw { status: 401, message: "username or password is not correct" };
+
+            // compare the entered password with the user's password
+            if (!compareStringWithHash(password, user.password)) throw { status: 401, message: "username or password is not correct" };
+
+            // generate token
+            const token = tokenGenerator({ username });
+            user.token = token;
+            user.save();
+
+            return res.json({
+                status: 200,
+                message: "you have successfully logged into your account",
+            })
         } catch (error) {
             next(error);
         }
@@ -32,7 +48,7 @@ class AuthController {
 
     async resetPassword(req, res, next) {
         try {
-            
+
         } catch (error) {
             next(error);
         }
