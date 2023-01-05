@@ -5,7 +5,7 @@ const TeamSchema = new Schema({
     description: { type: String },
     users: { type: [Types.ObjectId], default: [] },
     owner: { type: Types.ObjectId, required: true },
-})
+}, { timestamps: true });
 
 const TeamModel = model("teams", TeamSchema);
 

@@ -29,7 +29,7 @@ class ProjectController {
 
     async createProject(req, res, next) {
         try {
-            const { title, description } = req.body;
+            const { title, description, tags } = req.body;
 
             // create image path for save in database
             let image;
@@ -41,7 +41,7 @@ class ProjectController {
             const userId = req.user._id;
 
             // create project
-            const createProject = await ProjectModel.create({ title, description, owner: userId, image });
+            const createProject = await ProjectModel.create({ title, description, owner: userId, image, tags });
             if (createProject) {
                 return res.json({
                     status: 201,

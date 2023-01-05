@@ -7,7 +7,8 @@ const ProjectSchema = new Schema({
     owner: { type: Object, required: true },
     team: { type: Types.ObjectId },
     private: { type: Boolean, default: true },
-})
+    tags: { type: [String], default: [] },
+}, { timestamps: true })
 
 const ProjectModel = model("projects", ProjectSchema);
 
