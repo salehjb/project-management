@@ -10,7 +10,7 @@ class UserController {
         }
     }
 
-    getProfile(req, res, next) {
+    async getProfile(req, res, next) {
         try {
             const user = req.user;
 
