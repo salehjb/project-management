@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const path = require('path');
-const { EXPIRES_IN } = require('../configs/constants');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
+const { EXPIRES_IN } = require("../configs/constants");
 
 function hashString(str) {
     const salt = bcrypt.genSaltSync(10);

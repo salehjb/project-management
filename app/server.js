@@ -1,7 +1,7 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const router = require('./router/router');
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const router = require("./router/router");
 
 const app = express();
 
@@ -58,7 +58,7 @@ module.exports = class Application {
 
     createRoutes() {
         // home page
-        app.get('/', (req, res, next) => {
+        app.get("/", (req, res, next) => {
             return res.json({
                 message: "welcome to express application"
             })

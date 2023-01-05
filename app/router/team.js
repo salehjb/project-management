@@ -1,3 +1,3 @@
-const teamRouter = require('express').Router();
+const teamRouter = require("express").Router();
 
 module.exports = teamRouter;

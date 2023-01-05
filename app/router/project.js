@@ -1,11 +1,11 @@
-const ProjectController = require('../controllers/project.controller');
-const { createProjectValidator } = require('../validations/project');
-const { expressValidatorMapper } = require('../middlewares/checkErrors');
-const fileUpload = require('express-fileupload');
-const uploadFile = require('../modules/fileUpload');
-const { checkMongoId } = require('../middlewares/checkMongoId');
+const ProjectController = require("../controllers/project.controller");
+const { createProjectValidator } = require("../validations/project");
+const { expressValidatorMapper } = require("../middlewares/checkErrors");
+const fileUpload = require("express-fileupload");
+const uploadFile = require("../modules/fileUpload");
+const { checkMongoId } = require("../middlewares/checkMongoId");
 
-const projectRouter = require('express').Router();
+const projectRouter = require("express").Router();
 
 // get all projects
 projectRouter.get("/", ProjectController.getAllProjects);

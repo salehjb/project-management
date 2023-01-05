@@ -29,7 +29,7 @@ class AuthController {
             const user = await UserModel.findOne({ username });
             if (!user) throw { status: 401, message: "username or password is not correct" };
 
-            // compare the entered password with the user's password
+            // compare the entered password with the user"s password
             if (!compareStringWithHash(password, user.password)) throw { status: 401, message: "username or password is not correct" };
 
             // generate token
