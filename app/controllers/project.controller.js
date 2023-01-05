@@ -31,18 +31,24 @@ class ProjectController {
         try {
             const { title, description } = req.body;
 
+            // create image path for save in database
+            let image;
+            if (req.file) {
+                image = `${req.protocol}://${req.get("host")}/${req.file.path.substring(7).replace(/\\/g, "/")}`;
+            }
+
             // get user id
             const userId = req.user._id;
 
             // create project
-            const createProject = await ProjectModel.create({ title, description, owner: userId });
+            const createProject = await ProjectModel.create({ title, description, owner: userId, image });
             if (createProject) {
                 return res.json({
                     status: 201,
                     message: "the project was created successfully"
                 })
             } else {
-                throw { status: 500, message: "the project could not be created"};
+                throw { status: 500, message: "the project could not be created" };
             }
         } catch (error) {
             next(error);
