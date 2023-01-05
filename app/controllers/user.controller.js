@@ -48,6 +48,29 @@ class UserController {
         }
     }
 
+    async uploadProfileImage(req, res, next) {
+        try {
+            // get user id
+            const userId = req.user._id;
+
+            // create image path for save in database
+            const image = `${req.protocol}://${req.get("host")}/${req.file.path.substring(7).replace(/\\/g, "/")}`;
+
+            // upload profile image
+            const uploadProfileImage = await UserModel.updateOne({ _id: userId }, { $set: { profile_image: image } });
+            if (uploadProfileImage.modifiedCount > 0) {
+                return res.json({
+                    status: 200,
+                    message: "your profile picture has been successfully uploaded"
+                });
+            } else {
+                throw { status: 500, message: "failed to upload your profile picture" };
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async removeUserById(req, res, next) {
         try {
 

@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     skills: { type: [String], default: [] },
     teams: { type: [Types.ObjectId], default: [] },
+    profile_image: { type: String, default: "http://localhost:3500/defaults/default.png" },
     role: { type: String, default: "USER", required: true },
     token: { type: String, default: "", required: true },
 }, { timestamps: true });
