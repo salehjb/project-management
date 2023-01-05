@@ -1,10 +1,10 @@
 const ProjectModel = require('../models/project');
-const UserModel = require('../models/user');
 
 class ProjectController {
     async getAllProjects(req, res, next) {
         try {
-            const projects = await ProjectModel.find({}).sort({ _id: -1 });
+            const owner = req.user._id;
+            const projects = await ProjectModel.find({ owner });
             res.json(projects);
         } catch (error) {
             next(error);
