@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require("mongoose");
 
 const TeamSchema = new Schema({
+    username: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String },
     users: { type: [Types.ObjectId], default: [] },

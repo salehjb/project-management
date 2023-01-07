@@ -79,17 +79,79 @@ class UserController {
         }
     }
 
-    async acceptInviteInTeam(req, res, next) {
+    async getAllRequests(req, res, next) {
         try {
+            const userId = req.user._id;
 
+            // get requests by user id
+            const requests = await UserModel.findOne({ _id: userId }, { invite_requests: 1, _id: 0 });
+            return res.json(requests)
         } catch (error) {
             next(error);
         }
     }
 
-    async rejectInviteInTeam(req, res, next) {
+    async getRequestsByStatus(req, res, next) {
         try {
+            const userId = req.user._id;
+            const { status } = req.params;
 
+            const requests = await UserModel.aggregate([
+                { $match: { _id: userId } },
+                {
+                    $project: {
+                        invite_requests: 1,
+                        _id: 0,
+                        invite_requests: {
+                            $filter: {
+                                input: "$invite_requests",
+                                as: "request",
+                                cond: {
+                                    $eq: ["$$request.status", status]
+                                }
+                            }
+                        }
+                    }
+                },
+            ])
+            if (requests.length > 0) {
+                return res.json(requests);
+            } else {
+                throw { status: 500, message: "you have no requests" }
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async changeRequestStatus(req, res, next) {
+        try {
+            const { id, status } = req.params;
+
+            // find user by request id
+            const user = await UserModel.findOne({ "invite_requests._id": id });
+            if (!user) throw { status: 404, message: "invite request not found" };
+
+            // get the requested invitation
+            const findRequest = user.invite_requests.find((item) => item._id == id);
+            if (findRequest.status !== "pending") throw { status: 400, message: "you have already responded to this invitation" };
+
+            if (!["accepted", "rejected"].includes(status)) throw { status: 401, message: "please enter a valid status" };
+
+            // update reauest status
+            const updateRequestStatus = await UserModel.updateOne({ "invite_requests._id": id }, {
+                $set: {
+                    "invite_requests.$.status": status,
+                }
+            })
+            if (updateRequestStatus.modifiedCount > 0) {
+                return res.json({
+                    status: 200,
+                    message: `you have ${status} the team invitation request`
+                })
+            } else {
+                throw { status: 500, message: `you have ${status} the team invitation request` }
+            }
         } catch (error) {
             next(error);
         }

@@ -78,8 +78,6 @@ class ProjectController {
 
             const datas = req.body;
 
-            console.log(datas);
-
             // datas validator
             Object.entries(datas).forEach(([key, value]) => {
                 if (!["title", "description", "tags"].includes(key)) throw { status: 401, message: "bad request" };

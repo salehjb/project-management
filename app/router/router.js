@@ -7,8 +7,8 @@ const { autoLogin } = require("../middlewares/autoLogin");
 const router = require("express").Router();
 
 router.use("/auth", authRouter);
-router.use("/users", userRouter);
-router.use("/teams", teamRouter);
+router.use("/users", autoLogin, userRouter);
+router.use("/teams", autoLogin, teamRouter);
 router.use("/projects", autoLogin, projectRouter);
 
 module.exports = router;

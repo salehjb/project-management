@@ -1,5 +1,12 @@
 const { Schema, model, Types } = require("mongoose");
 
+const InviteRequestSchema = new Schema({
+    teamId: { type: Types.ObjectId, required: true },
+    caller: { type: String, required: true, lowercase: true },
+    request_date: { type: Date, default: new Date() },
+    status: { type: String, default: "pending" },
+});
+
 const UserSchema = new Schema({
     first_name: { type: String },
     last_name: { type: String },
@@ -10,6 +17,7 @@ const UserSchema = new Schema({
     skills: { type: [String], default: [] },
     teams: { type: [Types.ObjectId], default: [] },
     profile_image: { type: String, default: "http://localhost:3500/defaults/default.png" },
+    invite_requests: { type: [InviteRequestSchema] },
     role: { type: String, default: "USER", required: true },
     token: { type: String, default: "", required: true },
 }, { timestamps: true });
