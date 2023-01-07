@@ -32,12 +32,34 @@ class TeamController {
         try {
             const userId = req.user._id;
 
-            const teams = await TeamModel.find({
-                $or: [
-                    { owner: userId },
-                    { users: userId }
-                ]
-            })
+            const teams = await TeamModel.aggregate([
+                {
+                    $match: {
+                        $or: [
+                            { owner: userId },
+                            { users: userId }
+                        ]
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "owner",
+                        foreignField: "_id",
+                        as: "owner"
+                    }
+                },
+                {
+                    $project: {
+                        "owner.username": 1,
+                        "owner.email": 1,
+                        "owner.mobile": 1,
+                    }
+                },
+                {
+                    $unwind: "$owner"
+                }
+            ])
             if (teams.length > 0) {
                 return res.json(teams)
             } else {
